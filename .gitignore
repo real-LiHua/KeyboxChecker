@@ -1,7 +1,8 @@
+*.xml
+__pycache__
 /bin
 /include
 /lib
 /lib64
 /pyvenv.cfg
-*.xml
 /status.csv
