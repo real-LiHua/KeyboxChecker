@@ -11,15 +11,15 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python :: 3",
     "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Security :: Cryptography",
     "Topic :: Utilities",
 ]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">3.8"
 cryptography = "^43.0.1"
 defusedxml = "^0.7.1"
 requests = "^2.32.3"
-six = "^1.16.0"
 
 [tool.poetry.scripts]
 keyboxchecker = "keyboxchecker:main"
