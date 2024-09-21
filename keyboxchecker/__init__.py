@@ -1,15 +1,16 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import csv
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec, padding
-from cryptography.hazmat.primitives.serialization import (
-    Encoding,
-    PublicFormat,
-    load_pem_public_key,
-)
+from cryptography.hazmat.primitives.serialization import (Encoding,
+                                                          PublicFormat,
+                                                          load_pem_public_key)
 from defusedxml.ElementTree import parse
 from requests import get
 
@@ -55,7 +56,7 @@ def main():
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         output = []
-        for kb in Path(".").glob("**/*.xml"):
+        for kb in Path(sys.argv[1] if len(sys.argv) > 1 else ".").glob("**/*.xml"):
             values = list()
 
             root = parse(kb).getroot()
