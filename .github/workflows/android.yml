@@ -11,7 +11,7 @@ jobs:
       matrix:
         arch: [aarch64, arm, i686, x86_64]
     steps:
-    - run: pkg install -y nodejs python-pip
+    - run: /entrypoint.sh pkg install -y nodejs python-pip
     - uses: actions/checkout@v4
     - uses: actions/checkout@v4
       with:
