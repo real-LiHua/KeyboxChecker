@@ -9,9 +9,9 @@ jobs:
     container: termux/termux-docker:${{ matrix.arch }}
     strategy:
       matrix:
-        arch: [x86_64]
+        arch: [aarch64, arm, i686, x86_64]
     steps:
-    - run: /entrypoint.sh pkg install -y nodejs python3-pip
+    - run: pkg install -y nodejs python-pip
     - uses: actions/checkout@v4
     - uses: actions/checkout@v4
       with:
