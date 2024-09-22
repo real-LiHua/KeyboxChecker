@@ -16,7 +16,7 @@ runs:
       shell: bash
     
     - if: ${{ inputs.aosp }}
-      run: keyboxchecker -a "${{ inputs.aosp }}" -p "${{ inputs.path }}"
+      run: keyboxchecker -a -p "${{ inputs.path }}"
       shell: bash
       env:
         repository: "${{ github.repository }}"
