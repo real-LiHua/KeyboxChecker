@@ -17,6 +17,8 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         
+    - run: pip install .
+        
     - name: Black
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
       uses: microsoft/action-python@0.7.0
