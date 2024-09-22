@@ -71,10 +71,10 @@ def main():
             pem_number = int(
                 root.find(
                     ".//NumberOfCertificates"
-                ).text.strip()  # pyright: reportOptionalMemberAccess=off
+                ).text.strip()  # pyright: ignore [reportOptionalMemberAccess]
             )
             pem_certificates = [
-                cert.text.strip()
+                cert.text.strip()  # pyright: ignore [reportOptionalMemberAccess]
                 for cert in root.findall('.//Certificate[@format="pem"]')[:pem_number]
             ]
             certificate = x509.load_pem_x509_certificate(pem_certificates[0].encode())
@@ -129,11 +129,11 @@ def main():
                             "sha512WithRSAEncryption": hashes.SHA512(),
                         }[signature_algorithm]
                         padding_algorithm = padding.PKCS1v15()
-                        public_key.verify(
+                        public_key.verify(  # pyright: ignore [reportAttributeAccessIssue]
                             signature,
                             tbs_certificate,
-                            padding_algorithm,
-                            hash_algorithm,
+                            padding_algorithm,  # pyright: ignore [reportCallIssue]
+                            hash_algorithm,  # pyright: ignore [reportCallIssue]
                         )
                     elif signature_algorithm in [
                         "ecdsa-with-SHA256",
