@@ -13,12 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Pylint
-      uses: microsoft/action-python@0.7.0
+    - uses: actions/setup-python@v5
       with:
-        pylint: true
-        python_version: ${{ matrix.python-version }}
-        workdir: "."
+        python-version: ${{ matrix.python-version }}
         
     - name: Black
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
