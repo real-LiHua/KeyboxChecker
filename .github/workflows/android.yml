@@ -11,25 +11,22 @@ jobs:
       matrix:
         arch: [i686, x86_64]
     steps:
+    - run: /entrypoint.sh pkg install -y git openssh python-pip
+      env:
+          HOME: /data/data/com.termux/files/home
     - run: |
-        /entrypoint.sh pkg install -y nodejs python-pip
-        mkdir -vp /__e/node20/bin
-        chmod -v 755 /__e/node20/bin
-        ln -sv "$HOME/../usr/bin/node" /__e/node20/bin/node
+        mkdir -v /data/data/com.termux/files/home/.ssh
+        echo "${{ secrets.SSH_KEY }}" > /data/data/com.termux/files/home/.ssh/id_ed25519
+        echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" > /data/data/com.termux/files/home/.ssh/known_hosts
+        chown -vR 1000:1000 /data/data/com.termux/files/home/.ssh
+        chmod -v 600 /data/data/com.termux/files/home/.ssh/{id_ed25519,known_hosts}
+    - run: |
+        /entrypoint.sh git clone git@github.com:real-LiHua/bk "$HOME/bk"
+        /entrypoint.sh python -m venv .
+        export VIRTUAL_ENV="$HOME"
+        export PATH="$HOME/bin:$PATH"
+        /entrypoint.sh pip install git+https://github.com/real-LiHua/KeyboxChecker
+        /entrypoint.sh keyboxchecker "$HOME/bk"
       env:
           HOME: /data/data/com.termux/files/home
-    - uses: actions/checkout@v4
-      env:
-          HOME: /data/data/com.termux/files/home
-    - uses: actions/checkout@v4
-      with:
-        repository: real-LiHua/bk
-        ssh-key: ${{ secrets.SSH_KEY }}
-        path: bk
-      env:
-          HOME: /data/data/com.termux/files/home
-    - uses: real-LiHua/KeyboxChecker@ffff64a98296432dd94f0c0169b37cf8ecfa369f
-      with:
-        path: bk
-      env:
-          HOME: /data/data/com.termux/files/home
+          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_ed25519"
