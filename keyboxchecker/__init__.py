@@ -148,10 +148,10 @@ def main():
                             "ecdsa-with-SHA512": hashes.SHA512(),
                         }[signature_algorithm]
                         padding_algorithm = ec.ECDSA(hash_algorithm)
-                        public_key.verify(  # pyright: ignore [reportAttributeAccessIssue]
+                        public_key.verify(  # pyright: ignore [reportCallIssue, reportAttributeAccessIssue]
                             signature,
                             tbs_certificate,
-                            padding_algorithm,  # pyright: ignore [reportCallIssue, reportArgumentType]
+                            padding_algorithm,  # pyright: ignore [reportArgumentType]
                         )
                     else:
                         raise ValueError("Unsupported signature algorithms")
