@@ -32,11 +32,12 @@ jobs:
         chmod -v 600 .ssh/known_hosts
         chown -vR 1000:1000 .ssh
     - run: |
-        /entrypoint.sh git clone git@github.com:real-LiHua/bk "$HOME/bk"
-        /entrypoint.sh python -m venv "$HOME"
-        export PATH="$HOME/bin:/data/data/com.termux/files/usr/bin:$PATH"
+        /entrypoint.sh git clone git@github.com:real-LiHua/KeyboxChecker "$HOME/KeyboxChecker"
+        /entrypoint.sh git clone git@github.com:real-LiHua/bk "$HOME/KeyboxChecker/bk"
+        /entrypoint.sh python -m venv "$HOME/KeyboxChecker"
+        export PATH="$HOME/KeyboxChecker/bin:/data/data/com.termux/files/usr/bin:$PATH"
         /entrypoint.sh VIRTUAL_ENV="$HOME" pip install git+https://github.com/real-LiHua/KeyboxChecker
-        echo "cd $HOME && keyboxchecker bk" > $HOME/exec.sh
+        echo "cd $HOME/KeyboxChecker && keyboxchecker bk" > $HOME/exec.sh
         /entrypoint.sh VIRTUAL_ENV="$HOME" sh "$HOME/exec.sh"
       env:
           HOME: /data/data/com.termux/files/home
