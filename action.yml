@@ -1,0 +1,7 @@
+name: Batch keybox checker
+description: Batch keybox checker
+runs:
+  using: 'composite'
+  steps:
+    - run: pip install ${{ github.action_path }}
+    - run: keyboxchecker
