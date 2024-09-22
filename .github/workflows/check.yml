@@ -38,6 +38,7 @@ jobs:
         workdir: "."
           
     - name: Flake8
+      if: ${{ ! startsWith(matrix.os, 'windows') }}
       uses: microsoft/action-python@0.7.0
       with:          
         flake8: true
