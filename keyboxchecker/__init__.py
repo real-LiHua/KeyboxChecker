@@ -79,7 +79,8 @@ def main():
 
             values.append(
                 " | ".join(
-                    f"{rdn.oid._name}={rdn.value}" for rdn in certificate.subject
+                    f"{rdn.oid._name}={rdn.value}"  # pylint: disable=W0212
+                    for rdn in certificate.subject
                 )
             )
 
@@ -102,7 +103,9 @@ def main():
                     flag = False
                     break
                 signature = son_certificate.signature
-                signature_algorithm = son_certificate.signature_algorithm_oid._name
+                signature_algorithm = (
+                    son_certificate.signature_algorithm_oid._name  # pylint: disable=W0212
+                )
                 tbs_certificate = son_certificate.tbs_certificate_bytes
                 public_key = father_certificate.public_key()
                 try:
