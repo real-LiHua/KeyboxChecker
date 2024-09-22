@@ -10,10 +10,12 @@ jobs:
   test:
     name: Test Android
     runs-on: ubuntu-latest
-    container: termux/termux-docker:${{ matrix.arch }}
+    container:
+      image: termux/termux-docker:${{ matrix.arch }}
+      options: --privileged
     strategy:
       matrix:
-        arch: [i686, x86_64]
+        arch: [aarch64, arm, i686, x86_64]
     defaults:
       run:
         working-directory: /data/data/com.termux/files/home
