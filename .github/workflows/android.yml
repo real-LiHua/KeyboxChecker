@@ -12,16 +12,21 @@ jobs:
         arch: [i686, x86_64]
     steps:
     - run: |
-        /entrypoint.sh pkg install -y nodejs || chown -vR 1000:1000 "/github/home/.npm" "/github/home/.npmrc"
         /entrypoint.sh pkg install -y nodejs python-pip
       env:
           HOME: /data/data/com.termux/files/home
     - uses: actions/checkout@v4
+      env:
+          HOME: /data/data/com.termux/files/home
     - uses: actions/checkout@v4
       with:
         repository: real-LiHua/bk
         ssh-key: ${{ secrets.SSH_KEY }}
         path: bk
+      env:
+          HOME: /data/data/com.termux/files/home
     - uses: real-LiHua/KeyboxChecker@ffff64a98296432dd94f0c0169b37cf8ecfa369f
       with:
         path: bk
+      env:
+          HOME: /data/data/com.termux/files/home
