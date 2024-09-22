@@ -22,11 +22,10 @@ jobs:
         chown -vR 1000:1000 /data/data/com.termux/files/home/.ssh
     - run: |
         /entrypoint.sh git clone git@github.com:real-LiHua/bk "$HOME/bk"
-        /entrypoint.sh python -m venv .
-        export VIRTUAL_ENV="$HOME"
+        /entrypoint.sh python -m venv "$HOME"
         export PATH="$HOME/bin:$PATH"
-        /entrypoint.sh pip install git+https://github.com/real-LiHua/KeyboxChecker
-        /entrypoint.sh keyboxchecker "$HOME/bk"
+        /entrypoint.sh VIRTUAL_ENV="$HOME" pip install git+https://github.com/real-LiHua/KeyboxChecker
+        /entrypoint.sh VIRTUAL_ENV="$HOME" keyboxchecker "$HOME/bk"
       env:
           HOME: /data/data/com.termux/files/home
           GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_ed25519"
