@@ -12,14 +12,13 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+    
+    - name: Pylint
+      uses: microsoft/action-python@0.7.0
       with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install .
+        pylint: true
+        python_version: ${{ matrix.python-version }}
+        workdir: "."
         
     - name: Black
       if: ${{ startsWith(matrix.os, 'ubuntu') }}
@@ -32,12 +31,6 @@ jobs:
       uses: microsoft/action-python@0.7.0
       with:          
         bandit: true
-
-    - name: Pylint
-      uses: microsoft/action-python@0.7.0
-      with:
-        pylint: true
-        workdir: "."
           
     - name: Pyright
       uses: microsoft/action-python@0.7.0
