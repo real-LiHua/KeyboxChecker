@@ -2,15 +2,7 @@ name: check
 
 on: [push]
 
-jobs:
-  pip-audit:
-    runs-on:  ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pypa/gh-action-pip-audit@v1.0.0
-        with:
-          inputs: "."
-      
+jobs: 
   pylint:
     name: Setup ${{ matrix.python }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -28,7 +20,28 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install .
-        pip install pylint
-    - name: Analysing the code with pylint
-      run: |
-        pylint $(git ls-files '*.py')
+        
+    - name: Black
+      uses: microsoft/action-python@0.7.0
+      with:
+        black: true
+
+    - name: Bandit
+      uses: microsoft/action-python@0.7.0
+      with:          
+        bandit: true
+
+    - name: Pylint
+      uses: microsoft/action-python@0.7.0
+      with:
+        pylint: true
+          
+    - name: Pyright
+      uses: microsoft/action-python@0.7.0
+      with:          
+        pyright: true
+          
+    - name: Flake8
+      uses: microsoft/action-python@0.7.0
+      with:          
+        flake8: true
