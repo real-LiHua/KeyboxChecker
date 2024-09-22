@@ -61,4 +61,4 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - uses: real-LiHua/KeyboxChecker@${{ github.sha }}
+    - uses: real-LiHua/KeyboxChecker@ffff64a98296432dd94f0c0169b37cf8ecfa369f
