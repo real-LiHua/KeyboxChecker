@@ -25,7 +25,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: "*.whl"
+          files: "dist/*.whl"
           generate_release_notes: true
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@v1.10.2
