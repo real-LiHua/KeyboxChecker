@@ -19,3 +19,6 @@ keyboxchecker [directory where keybox is located, defaults to current directory]
 ```bash
 pip uninstall keyboxchecker
 ```
+
+## Credits
+[KimmyXYC/KeyboxChecker](https://github.com/KimmyXYC/KeyboxChecker)
