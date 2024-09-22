@@ -4,6 +4,8 @@
 import csv
 import sys
 from datetime import datetime, timezone
+from json import load
+from os import getenv
 from pathlib import Path
 
 from cryptography import x509
@@ -28,14 +30,17 @@ def load_public_key_from_file(file_path):
     return public_key
 
 
-revoked_keybox_list = get(  # pylint: disable=W3101
-    "https://android.googleapis.com/attestation/status",
-    headers={
-        "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",
-        "Pragma": "no-cache",
-        "Expires": "0",
-    },
-).json()["entries"]
+if getenv("CI"):
+    revoked_keybox_list = load(open(Path(".github") / "status"))["entries"]
+else:
+    revoked_keybox_list = get(  # pylint: disable=W3101
+        "https://android.googleapis.com/attestation/status",
+        headers={
+            "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0",
+        },
+    ).json()["entries"]
 
 google_public_key = load_public_key_from_file("google.pem")
 aosp_ec_public_key = load_public_key_from_file("aosp_ec.pem")
