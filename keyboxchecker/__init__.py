@@ -8,10 +8,12 @@ from pathlib import Path
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec, padding
-from cryptography.hazmat.primitives.serialization import (Encoding,
+from cryptography.hazmat.primitives.serialization import (
+    Encoding,
     PublicFormat,
-    load_pem_public_key)
-from defusedxml.ElementTree import parse, ParseError
+    load_pem_public_key,
+)
+from defusedxml.ElementTree import ParseError, parse
 from requests import get
 
 
@@ -43,6 +45,8 @@ survivor.mkdir(0o755, exist_ok=True)
 dead.mkdir(0o755, exist_ok=True)
 
 serial_numbers = []
+
+
 def main():
     with open("status.csv", "w") as csvfile:
         fieldnames = [
@@ -76,7 +80,9 @@ def main():
             values.append(serial_number)
 
             values.append(
-                " | ".join(f"{rdn.oid._name}={rdn.value}" for rdn in certificate.subject)
+                " | ".join(
+                    f"{rdn.oid._name}={rdn.value}" for rdn in certificate.subject
+                )
             )
 
             not_valid_before = certificate.not_valid_before_utc
@@ -87,8 +93,12 @@ def main():
 
             flag = True
             for i in range(pem_number - 1):
-                son_certificate = x509.load_pem_x509_certificate(pem_certificates[i].encode())
-                father_certificate = x509.load_pem_x509_certificate(pem_certificates[i + 1].encode())
+                son_certificate = x509.load_pem_x509_certificate(
+                    pem_certificates[i].encode()
+                )
+                father_certificate = x509.load_pem_x509_certificate(
+                    pem_certificates[i + 1].encode()
+                )
 
                 if son_certificate.issuer != father_certificate.subject:
                     flag = False
@@ -98,23 +108,36 @@ def main():
                 tbs_certificate = son_certificate.tbs_certificate_bytes
                 public_key = father_certificate.public_key()
                 try:
-                    if signature_algorithm in ['sha256WithRSAEncryption', 'sha1WithRSAEncryption', 'sha384WithRSAEncryption',
-                                               'sha512WithRSAEncryption']:
+                    if signature_algorithm in [
+                        "sha256WithRSAEncryption",
+                        "sha1WithRSAEncryption",
+                        "sha384WithRSAEncryption",
+                        "sha512WithRSAEncryption",
+                    ]:
                         hash_algorithm = {
-                            'sha256WithRSAEncryption': hashes.SHA256(),
-                            'sha1WithRSAEncryption': hashes.SHA1(),
-                            'sha384WithRSAEncryption': hashes.SHA384(),
-                            'sha512WithRSAEncryption': hashes.SHA512()
+                            "sha256WithRSAEncryption": hashes.SHA256(),
+                            "sha1WithRSAEncryption": hashes.SHA1(),
+                            "sha384WithRSAEncryption": hashes.SHA384(),
+                            "sha512WithRSAEncryption": hashes.SHA512(),
                         }[signature_algorithm]
                         padding_algorithm = padding.PKCS1v15()
-                        public_key.verify(signature, tbs_certificate, padding_algorithm, hash_algorithm)
-                    elif signature_algorithm in ['ecdsa-with-SHA256', 'ecdsa-with-SHA1', 'ecdsa-with-SHA384',
-                                                 'ecdsa-with-SHA512']:
+                        public_key.verify(
+                            signature,
+                            tbs_certificate,
+                            padding_algorithm,
+                            hash_algorithm,
+                        )
+                    elif signature_algorithm in [
+                        "ecdsa-with-SHA256",
+                        "ecdsa-with-SHA1",
+                        "ecdsa-with-SHA384",
+                        "ecdsa-with-SHA512",
+                    ]:
                         hash_algorithm = {
-                            'ecdsa-with-SHA256': hashes.SHA256(),
-                            'ecdsa-with-SHA1': hashes.SHA1(),
-                            'ecdsa-with-SHA384': hashes.SHA384(),
-                            'ecdsa-with-SHA512': hashes.SHA512()
+                            "ecdsa-with-SHA256": hashes.SHA256(),
+                            "ecdsa-with-SHA1": hashes.SHA1(),
+                            "ecdsa-with-SHA384": hashes.SHA384(),
+                            "ecdsa-with-SHA512": hashes.SHA512(),
                         }[signature_algorithm]
                         padding_algorithm = ec.ECDSA(hash_algorithm)
                         public_key.verify(signature, tbs_certificate, padding_algorithm)
@@ -146,7 +169,10 @@ def main():
 
             status = revoked_keybox_list.get(serial_number)
 
-            kb.rename((dead if status or not flag or not is_valid else survivor) / f"{serial_number}.xml")
+            kb.rename(
+                (dead if status or not flag or not is_valid else survivor)
+                / f"{serial_number}.xml"
+            )
             values.append("✅" if not status else f"❌ {status['reason']}")
 
             output.append(dict(zip(fieldnames, values)))
