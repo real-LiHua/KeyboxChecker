@@ -1,9 +1,9 @@
-name: check
+name: Check
 
 on: [push]
 
 jobs: 
-  pylint:
+  check:
     name: Setup ${{ matrix.python }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
