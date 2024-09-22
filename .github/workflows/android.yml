@@ -11,13 +11,13 @@ jobs:
       matrix:
         arch: [x86_64]
     steps:
+    - run: /entrypoint.sh pkg install -y nodejs python3-pip
     - uses: actions/checkout@v4
     - uses: actions/checkout@v4
       with:
         repository: real-LiHua/bk
         ssh-key: ${{ secrets.SSH_KEY }}
         path: bk
-    - run: /entrypoint.sh pkg install -y python3-pip
     - uses: real-LiHua/KeyboxChecker@ffff64a98296432dd94f0c0169b37cf8ecfa369f
       with:
         path: bk
