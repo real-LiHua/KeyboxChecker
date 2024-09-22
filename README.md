@@ -11,7 +11,12 @@ pip install keyboxchecker
 
 ## Usage
 ```bash
-keyboxchecker [directory where keybox is located, defaults to current directory]
+usage: keyboxchecker [-h] [-a] [-p PATH]
+
+options:
+  -h, --help            show this help message and exit
+  -a, --aosp            Categorizes the AOSP keybox as "Survivor" with a default value of "False"
+  -p PATH, --path PATH  Directory where keybox is located, defaults to current directory
 ```
 
 ## Uninstall

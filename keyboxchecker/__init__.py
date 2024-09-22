@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=C0114
 import csv
-import sys
 from datetime import datetime, timezone
 from json import load
 from os import getenv
@@ -28,17 +27,19 @@ def load_public_key_from_file(file_path):
     return public_key
 
 
-if getenv("action_repository") == getenv("repository"):
-    revoked_keybox_list = load(open(Path(".github") / "status"))["entries"]
-else:
-    revoked_keybox_list = get(  # pylint: disable=W3101
-        "https://android.googleapis.com/attestation/status",
-        headers={
-            "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",
-            "Pragma": "no-cache",
-            "Expires": "0",
-        },
-    ).json()["entries"]
+def get_revoked_keybox_list():
+    if getenv("action_repository", 0) == getenv("repository", 1):
+        return load(open(Path(".github") / "status"))["entries"]
+    else:
+        return get(  # pylint: disable=W3101
+            "https://android.googleapis.com/attestation/status",
+            headers={
+                "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0",
+            },
+        ).json()["entries"]
+
 
 google_public_key = load_public_key_from_file("google.pem")
 aosp_ec_public_key = load_public_key_from_file("aosp_ec.pem")
@@ -50,8 +51,9 @@ survivor.mkdir(0o755, exist_ok=True)
 dead.mkdir(0o755, exist_ok=True)
 
 
-def main():
+def main(args):
     # pylint: disable=C0116,R0912,R0914,R0915
+    revoked_keybox_list = get_revoked_keybox_list()
     with open("status.csv", "w", encoding="UTF-8") as csvfile:
         serial_numbers = []
         fieldnames = [
@@ -65,7 +67,7 @@ def main():
         output = []
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
-        for kb in Path(sys.argv[1] if len(sys.argv) > 1 else ".").glob("**/*.xml"):
+        for kb in Path(args.path).glob("**/*.xml"):
             values = []
             try:
                 root = parse(kb).getroot()
@@ -176,11 +178,14 @@ def main():
                     format=PublicFormat.SubjectPublicKeyInfo,
                 )
             )
+            is_aosp = False
             if root_public_key == google_public_key:
                 values.append("✅ Google hardware attestation root certificate")
             elif root_public_key == aosp_ec_public_key:
+                is_aosp = True
                 values.append("🟡 AOSP software attestation root certificate (EC)")
             elif root_public_key == aosp_rsa_public_key:
+                is_aosp = True
                 values.append("🟡 AOSP software attestation root certificate (RSA)")
             elif root_public_key == knox_public_key:
                 values.append("✅ Samsung Knox attestation root certificate")
@@ -190,7 +195,11 @@ def main():
             status = revoked_keybox_list.get(serial_number)
 
             kb.rename(
-                (dead if status or not flag or not is_valid else survivor)
+                (
+                    dead
+                    if status or (is_aosp and not args.aosp) or not flag or not is_valid
+                    else survivor
+                )
                 / f"{serial_number}.xml"
             )
             values.append("✅" if not status else f"❌ {status['reason']}")
