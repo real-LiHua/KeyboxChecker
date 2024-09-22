@@ -11,8 +11,9 @@ jobs:
       matrix:
         arch: [i686, x86_64]
     steps:
-    - run: chown -vR 1000:1000 "/github/home/.npm" "/github/home/.npmrc"
-    - run: /entrypoint.sh pkg install -y nodejs python-pip
+    - run: |
+        /entrypoint.sh pkg install -y nodejs || chown -vR 1000:1000 "/github/home/.npm" "/github/home/.npmrc"
+        /entrypoint.sh pkg install -y nodejs python-pip
     - uses: actions/checkout@v4
     - uses: actions/checkout@v4
       with:
