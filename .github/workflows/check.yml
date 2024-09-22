@@ -3,6 +3,11 @@ name: check
 on: [push]
 
 jobs:
+  pip-audit:
+    runs-on:  ubuntu-latest
+    steps:
+      - uses: pypa/gh-action-pip-audit@v1.0.0
+      
   pylint:
     name: Setup ${{ matrix.python }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
