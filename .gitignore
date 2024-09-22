@@ -2,6 +2,8 @@
 *.whl
 __pycache__
 /bin
+/build
+/dist
 /include
 /lib
 /lib64

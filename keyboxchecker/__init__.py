@@ -22,7 +22,7 @@ from requests import get
 
 def load_public_key_from_file(file_path):
     # pylint: disable=C0116
-    with open(Path(__file__).parents[0] / file_path, "rb") as key_file:
+    with open(Path(__file__).resolve().with_name(file_path), "rb") as key_file:
         public_key = load_pem_public_key(key_file.read()).public_bytes(
             encoding=Encoding.PEM,
             format=PublicFormat.SubjectPublicKeyInfo,
@@ -30,7 +30,7 @@ def load_public_key_from_file(file_path):
     return public_key
 
 
-if getenv("CI"):
+if getenv("action_repository") == getenv("repository"):
     revoked_keybox_list = load(open(Path(".github") / "status"))["entries"]
 else:
     revoked_keybox_list = get(  # pylint: disable=W3101

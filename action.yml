@@ -12,3 +12,6 @@ runs:
       shell: bash
     - run: keyboxchecker "${{ inputs.path }}"
       shell: bash
+      env:
+        repository: "${{ github.repository }}"
+        action_repository: "${{ github.action_repository }}"
