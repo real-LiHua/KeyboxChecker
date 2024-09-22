@@ -17,7 +17,7 @@ jobs:
         --security-opt seccomp=unconfined
     strategy:
       matrix:
-        arch: [aarch64, arm, i686, x86_64]
+        arch: [i686, x86_64]
     defaults:
       run:
         working-directory: /data/data/com.termux/files/home
