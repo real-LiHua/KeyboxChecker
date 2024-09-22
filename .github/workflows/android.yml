@@ -1,6 +1,10 @@
 name: Android
 
-on: [push]
+on:
+  push:
+    paths:
+      - "**.py"
+      - ".github/workflows/android.yml"
 
 jobs: 
   test:
@@ -11,7 +15,7 @@ jobs:
       matrix:
         arch: [i686, x86_64]
     steps:
-    - run: /entrypoint.sh pkg install -y git openssh python-pip
+    - run: /entrypoint.sh pkg install -y git openssh python-pip rust
       env:
           HOME: /data/data/com.termux/files/home
     - run: |
@@ -23,7 +27,7 @@ jobs:
     - run: |
         /entrypoint.sh git clone git@github.com:real-LiHua/bk "$HOME/bk"
         /entrypoint.sh python -m venv "$HOME"
-        export PATH="$HOME/bin:$PATH"
+        export PATH="$HOME/bin:/data/data/com.termux/files/usr/bin:$PATH"
         /entrypoint.sh VIRTUAL_ENV="$HOME" pip install git+https://github.com/real-LiHua/KeyboxChecker
         /entrypoint.sh VIRTUAL_ENV="$HOME" keyboxchecker "$HOME/bk"
       env:
