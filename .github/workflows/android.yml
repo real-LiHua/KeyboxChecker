@@ -14,6 +14,8 @@ jobs:
     - run: |
         /entrypoint.sh pkg install -y nodejs || chown -vR 1000:1000 "/github/home/.npm" "/github/home/.npmrc"
         /entrypoint.sh pkg install -y nodejs python-pip
+      env:
+          HOME: /data/data/com.termux/files/home
     - uses: actions/checkout@v4
     - uses: actions/checkout@v4
       with:
