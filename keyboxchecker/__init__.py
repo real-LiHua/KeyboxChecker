@@ -44,11 +44,10 @@ survivor, dead = Path("survivor"), Path("dead")
 survivor.mkdir(0o755, exist_ok=True)
 dead.mkdir(0o755, exist_ok=True)
 
-serial_numbers = []
-
 
 def main():
-    with open("status.csv", "w") as csvfile:
+    with open("status.csv", "w", encoding="UTF-8") as csvfile:
+        serial_numbers = []
         fieldnames = [
             "Serial number",
             "Subject",
@@ -57,12 +56,11 @@ def main():
             "Note",
             "Not found in Google's revoked keybox list",
         ]
+        output = []
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
-        output = []
         for kb in Path(sys.argv[1] if len(sys.argv) > 1 else ".").glob("**/*.xml"):
-            values = list()
-
+            values = []
             try:
                 root = parse(kb).getroot()
             except ParseError:
