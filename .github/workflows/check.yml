@@ -26,6 +26,7 @@ jobs:
       uses: microsoft/action-python@0.7.0
       with:
         black: true
+        workdir: "."
 
     - name: Bandit
       uses: microsoft/action-python@0.7.0
@@ -36,13 +37,16 @@ jobs:
       uses: microsoft/action-python@0.7.0
       with:
         pylint: true
+        workdir: "."
           
     - name: Pyright
       uses: microsoft/action-python@0.7.0
       with:          
         pyright: true
+        workdir: "."
           
     - name: Flake8
       uses: microsoft/action-python@0.7.0
       with:          
         flake8: true
+        workdir: "."
