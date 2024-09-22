@@ -22,7 +22,7 @@ jobs:
         pip install .
         
     - name: Black
-      if: ${{ startsWith(matrix.os, "ubuntu") }}
+      if: ${{ startsWith(matrix.os, 'ubuntu') }}
       uses: microsoft/action-python@0.7.0
       with:
         black: true
