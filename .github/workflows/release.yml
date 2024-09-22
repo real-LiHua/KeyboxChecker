@@ -29,5 +29,3 @@ jobs:
           generate_release_notes: true
       - name: Publish package
         uses: pypa/gh-action-pypi-publish@v1.10.2
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
