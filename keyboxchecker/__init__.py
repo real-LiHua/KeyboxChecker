@@ -11,11 +11,9 @@ from pathlib import Path
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec, padding
-from cryptography.hazmat.primitives.serialization import (
-    Encoding,
-    PublicFormat,
-    load_pem_public_key,
-)
+from cryptography.hazmat.primitives.serialization import (Encoding,
+                                                          PublicFormat,
+                                                          load_pem_public_key)
 from defusedxml.ElementTree import ParseError, parse
 from requests import get
 
