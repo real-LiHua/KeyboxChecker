@@ -77,10 +77,10 @@ def main():
                 pem_number = int(
                     root.find(
                         ".//NumberOfCertificates"
-                    ).text.strip()
+                    ).text.strip()  # pyright: ignore [reportOptionalMemberAccess]
                 )
                 pem_certificates = [
-                    cert.text.strip()
+                    cert.text.strip()  # pyright: ignore [reportOptionalMemberAccess]
                     for cert in root.findall('.//Certificate[@format="pem"]')[
                         :pem_number
                     ]
