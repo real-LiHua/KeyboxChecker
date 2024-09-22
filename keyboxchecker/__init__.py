@@ -73,15 +73,20 @@ def main():
                 root = parse(kb).getroot()
             except ParseError:
                 continue
-            pem_number = int(
-                root.find(
-                    ".//NumberOfCertificates"
-                ).text.strip()  # pyright: ignore [reportOptionalMemberAccess]
-            )
-            pem_certificates = [
-                cert.text.strip()  # pyright: ignore [reportOptionalMemberAccess]
-                for cert in root.findall('.//Certificate[@format="pem"]')[:pem_number]
-            ]
+            try:
+                pem_number = int(
+                    root.find(
+                        ".//NumberOfCertificates"
+                    ).text.strip()
+                )
+                pem_certificates = [
+                    cert.text.strip()
+                    for cert in root.findall('.//Certificate[@format="pem"]')[
+                        :pem_number
+                    ]
+                ]
+            except AttributeError:
+                continue
             certificate = x509.load_pem_x509_certificate(pem_certificates[0].encode())
             serial_number = hex(certificate.serial_number)[2:]
             if serial_number in serial_numbers:
