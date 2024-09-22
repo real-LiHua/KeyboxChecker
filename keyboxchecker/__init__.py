@@ -141,7 +141,7 @@ def main():
                         public_key.verify(signature, tbs_certificate, padding_algorithm)
                     else:
                         raise ValueError("Unsupported signature algorithms")
-                except Exception:
+                except Exception:  # pylint: disable=W0718
                     flag = False
                     break
             values.append("✅" if flag else "❌")
