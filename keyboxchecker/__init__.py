@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# pylint: disable=C0114
 import csv
 import sys
 from datetime import UTC, datetime
@@ -18,6 +19,7 @@ from requests import get
 
 
 def load_public_key_from_file(file_path):
+    # pylint: disable=C0116
     with open(Path(__file__).parents[0] / file_path, "rb") as key_file:
         public_key = load_pem_public_key(key_file.read()).public_bytes(
             encoding=Encoding.PEM,
@@ -26,7 +28,7 @@ def load_public_key_from_file(file_path):
     return public_key
 
 
-revoked_keybox_list = get(
+revoked_keybox_list = get(  # pylint: disable=W3101
     "https://android.googleapis.com/attestation/status",
     headers={
         "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",
