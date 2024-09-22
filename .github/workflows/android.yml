@@ -17,8 +17,9 @@ jobs:
     - run: |
         echo "${{ secrets.SSH_KEY }}" > /data/data/com.termux/files/home/.ssh/id_ed25519
         echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" > /data/data/com.termux/files/home/.ssh/known_hosts
+        chmod -v 600 /data/data/com.termux/files/home/.ssh/id_ed25519
+        chmod -v 600 /data/data/com.termux/files/home/.ssh/known_hosts
         chown -vR 1000:1000 /data/data/com.termux/files/home/.ssh
-        chmod -v 600 /data/data/com.termux/files/home/.ssh/{id_ed25519,known_hosts}
     - run: |
         /entrypoint.sh git clone git@github.com:real-LiHua/bk "$HOME/bk"
         /entrypoint.sh python -m venv .
