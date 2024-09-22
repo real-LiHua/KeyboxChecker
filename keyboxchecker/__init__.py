@@ -3,7 +3,7 @@
 # pylint: disable=C0114
 import csv
 import sys
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from cryptography import x509
@@ -89,7 +89,7 @@ def main():
 
             not_valid_before = certificate.not_valid_before_utc
             not_valid_after = certificate.not_valid_after_utc
-            current_time = datetime.now(UTC)
+            current_time = datetime.now(timezone.utc)
             is_valid = not_valid_before <= current_time <= not_valid_after
             values.append("✅" if is_valid else "❌")
 
