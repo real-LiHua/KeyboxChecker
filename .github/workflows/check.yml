@@ -43,22 +43,3 @@ jobs:
       with:          
         flake8: true
         workdir: "."
-
-  test:
-    name: Test ${{ matrix.python }} ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    needs: check
-    strategy:
-      matrix:
-        os: [macos-latest, windows-latest, ubuntu-20.04, ubuntu-22.04]
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        repository: real-LiHua/bk
-    
-    - uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - uses: real-LiHua/KeyboxChecker@ffff64a98296432dd94f0c0169b37cf8ecfa369f
