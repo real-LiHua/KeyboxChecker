@@ -1,12 +1,13 @@
 [tool.poetry]
 name = "keyboxchecker"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Li Hua <lihua@email.com>"]
 readme = "README.md"
 repository = "https://github.com/real-LiHua/KeyboxChecker"
 classifiers = [
     "Intended Audience :: Information Technology",
+    "Operating System :: Android",
     "Operating System :: MacOS",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX :: Linux",
