@@ -26,6 +26,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - uses: real-LiHua/KeyboxChecker@ffff64a98296432dd94f0c0169b37cf8ecfa369f
+    - uses: real-LiHua/KeyboxChecker@6a7f9f2c2438871b2c9fa1925b97b31e590ce38f
       with:
         path: bk
