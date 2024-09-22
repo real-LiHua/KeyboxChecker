@@ -46,6 +46,7 @@ dead.mkdir(0o755, exist_ok=True)
 
 
 def main():
+    # pylint: disable=C0116,R0912,R0914,R0915
     with open("status.csv", "w", encoding="UTF-8") as csvfile:
         serial_numbers = []
         fieldnames = [
