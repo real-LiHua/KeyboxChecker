@@ -68,7 +68,11 @@ def main():
                 root = parse(kb).getroot()
             except ParseError:
                 continue
-            pem_number = int(root.find(".//NumberOfCertificates").text.strip())
+            pem_number = int(
+                root.find(
+                    ".//NumberOfCertificates"
+                ).text.strip()  # pyright: reportOptionalMemberAccess=off
+            )
             pem_certificates = [
                 cert.text.strip()
                 for cert in root.findall('.//Certificate[@format="pem"]')[:pem_number]
