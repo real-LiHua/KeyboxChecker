@@ -151,7 +151,7 @@ def main():
                         public_key.verify(  # pyright: ignore [reportCallIssue, reportAttributeAccessIssue]
                             signature,
                             tbs_certificate,
-                            padding_algorithm,  # pyright: ignore [reportArgumentType]
+                            padding_algorithm,  # pyright: ignore [reportArgumentType, reportCallIssue]
                         )
                     else:
                         raise ValueError("Unsupported signature algorithms")
