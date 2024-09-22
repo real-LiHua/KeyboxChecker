@@ -15,7 +15,6 @@ jobs:
       env:
           HOME: /data/data/com.termux/files/home
     - run: |
-        mkdir -v /data/data/com.termux/files/home/.ssh
         echo "${{ secrets.SSH_KEY }}" > /data/data/com.termux/files/home/.ssh/id_ed25519
         echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" > /data/data/com.termux/files/home/.ssh/known_hosts
         chown -vR 1000:1000 /data/data/com.termux/files/home/.ssh
