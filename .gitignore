@@ -1,4 +1,5 @@
 *.xml
+*.whl
 __pycache__
 /bin
 /include
