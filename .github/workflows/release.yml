@@ -1,4 +1,4 @@
-name: release
+name: Release
 
 on:
   push:
@@ -19,3 +19,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: "*.whl"
+          generate_release_notes: true
