@@ -1,9 +1,14 @@
 name: Batch keybox checker
 description: Batch keybox checker
+inputs:
+  path:
+    description: directory where keybox is located, defaults to current directory.
+    required: false
+    default: "."
 runs:
   using: 'composite'
   steps:
-    - run: pip install ${{ github.action_path }}
+    - run: pip install "${{ github.action_path }}"
       shell: bash
-    - run: keyboxchecker
+    - run: keyboxchecker "${{ inputs.path }}"
       shell: bash
