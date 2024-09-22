@@ -32,7 +32,8 @@ jobs:
         /entrypoint.sh python -m venv "$HOME"
         export PATH="$HOME/bin:/data/data/com.termux/files/usr/bin:$PATH"
         /entrypoint.sh VIRTUAL_ENV="$HOME" pip install git+https://github.com/real-LiHua/KeyboxChecker
-        /entrypoint.sh VIRTUAL_ENV="$HOME" "cd $HOME && keyboxchecker bk"
+        echo "cd $HOME && keyboxchecker bk" > $HOME/exec.sh
+        /entrypoint.sh VIRTUAL_ENV="$HOME" sh "$HOME/exec.sh"
       env:
           HOME: /data/data/com.termux/files/home
           GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_ed25519"
