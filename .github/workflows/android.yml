@@ -12,7 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: termux/termux-docker:${{ matrix.arch }}
-      options: --privileged --security-opt 'seccomp:unconfined'
+      options: >-
+        --privileged
+        --security-opt seccomp:unconfined
     strategy:
       matrix:
         arch: [aarch64, arm, i686, x86_64]
