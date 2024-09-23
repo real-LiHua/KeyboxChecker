@@ -24,7 +24,7 @@ jobs:
     - run: pip install .
         
     - name: Black
-      if: ${{ runner.os == "linux" }}
+      if: ${{ runner.os == 'linux' }}
       uses: microsoft/action-python@0.7.3
       with:
         black: true
@@ -37,7 +37,7 @@ jobs:
 
     
     - name: Pylint
-      if: ${{ runner.os != "macos" }}
+      if: ${{ runner.os != 'macos' }}
       uses: microsoft/action-python@0.7.3
       with:          
         pylint: true
