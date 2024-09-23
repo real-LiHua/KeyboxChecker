@@ -41,6 +41,7 @@ jobs:
       with:          
         pylint: true
         workdir: "."
+        python_version:  ${{ matrix.python-version }}
         
     - name: Pyright
       uses: microsoft/action-python@0.7.3
