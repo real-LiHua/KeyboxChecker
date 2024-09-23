@@ -34,7 +34,14 @@ jobs:
       uses: microsoft/action-python@0.7.3
       with:          
         bandit: true
-          
+
+    
+    - name: Pylint
+      uses: microsoft/action-python@0.7.3
+      with:          
+        pylint: true
+        workdir: "."
+        
     - name: Pyright
       uses: microsoft/action-python@0.7.3
       with:          
