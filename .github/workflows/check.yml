@@ -24,7 +24,7 @@ jobs:
     - run: pip install .
         
     - name: Black
-      if: ${{ runner.os == "Linux" }}
+      if: ${{ runner.os == "linux" }}
       uses: microsoft/action-python@0.7.3
       with:
         black: true
@@ -51,7 +51,7 @@ jobs:
         workdir: "."
           
     - name: Flake8
-      if: ${{ runner.os != 'Windows' }}
+      if: ${{ runner.os != 'windows' }}
       uses: microsoft/action-python@0.7.3
       with:          
         flake8: true
