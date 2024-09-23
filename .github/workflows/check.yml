@@ -24,7 +24,7 @@ jobs:
     - run: pip install .
         
     - name: Black
-      if: ${{ startsWith(matrix.os, 'ubuntu') }}
+      if: ${{ runner.os == "Linux" }}
       uses: microsoft/action-python@0.7.3
       with:
         black: true
@@ -37,6 +37,7 @@ jobs:
 
     
     - name: Pylint
+      if: ${{ runner.os != "macos" }}
       uses: microsoft/action-python@0.7.3
       with:          
         pylint: true
@@ -50,7 +51,7 @@ jobs:
         workdir: "."
           
     - name: Flake8
-      if: ${{ ! startsWith(matrix.os, 'windows') }}
+      if: ${{ runner.os != 'Windows' }}
       uses: microsoft/action-python@0.7.3
       with:          
         flake8: true
