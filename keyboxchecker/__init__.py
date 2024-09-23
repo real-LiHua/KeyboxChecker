@@ -190,18 +190,15 @@ def main(args):
             elif root_public_key == knox_public_key:
                 values.append("✅ Samsung Knox attestation root certificate")
             else:
+                flag = False
                 values.append("❌ Unknown root certificate")
 
             status = revoked_keybox_list.get(serial_number)
 
-            kb.rename(
-                (
-                    dead
-                    if status or (is_aosp and not args.aosp) or not flag or not is_valid
-                    else survivor
-                )
-                / f"{serial_number}.xml"
-            )
+            if status or (is_aosp and not args.aosp) or not flag or not is_valid:
+                kb.rename(dead / f"{serial_number}.xml")
+            else:
+                kb.rename(survivor / f"{serial_number}.xml")
             values.append("✅" if not status else f"❌ {status['reason']}")
 
             output.append(dict(zip(fieldnames, values)))
