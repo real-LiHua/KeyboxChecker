@@ -4,7 +4,7 @@ inputs:
   aosp:
     description: A boolean value that categorizes the AOSP keybox as a survivor, defaulting to False.
     required: false
-    default: "false"
+    default: false
   path:
     description: Directory where keybox is located, defaults to current directory.
     required: false
