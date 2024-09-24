@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "keyboxchecker"
-version = "1.0.1"
+version = "1.0.2"
 description = ""
 authors = ["Li Hua <lihua@email.com>"]
 readme = "README.md"

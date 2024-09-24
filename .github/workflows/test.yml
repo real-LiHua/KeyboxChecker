@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-20.04, ubuntu-22.04]
+        os: [macos-latest, windows-latest, ubuntu-20.04, ubuntu-22.04, ubuntu-latest]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     steps:
     - uses: actions/checkout@v4
@@ -26,6 +26,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - uses: real-LiHua/KeyboxChecker@35b51140390ac1dbdd048832fd9c8da37a679b9b
+    - uses: real-LiHua/KeyboxChecker@v1.0.2
       with:
         path: bk
