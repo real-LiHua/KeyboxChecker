@@ -32,3 +32,4 @@ jobs:
       with:
         branch: ${{ matrix.os }}-${{ matrix.python }}
         ssh-key: ${{ secrets.SSH_KEY }}
+        push_options: '--force'
