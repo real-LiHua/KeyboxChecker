@@ -19,6 +19,8 @@ jobs:
       with:
         repository: real-LiHua/bk
         ssh-key: ${{ secrets.SSH_KEY }}
+        
+    - run: git checkout -b ${{ matrix.os }}-${{ matrix.python }}
     
     - uses: actions/setup-python@v5
       with:
