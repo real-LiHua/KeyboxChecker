@@ -16,16 +16,17 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/checkout@v4
       with:
         repository: real-LiHua/bk
         ssh-key: ${{ secrets.SSH_KEY }}
-        path: bk
     
     - uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
     - uses: real-LiHua/KeyboxChecker@v1.0.2
+        
+    - uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        path: bk
+        branch: ${{ matrix.os }}-${{ matrix.python }}
+        ssh-key: ${{ secrets.SSH_KEY }}
