@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-20.04, ubuntu-22.04, ubuntu-latest]
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     steps:
     - uses: actions/checkout@v4
       with:
@@ -22,7 +22,7 @@ jobs:
     
     - uses: actions/setup-python@v5
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python }}
 
     - run: curl -sSLo .github/status https://raw.githubusercontent.com/real-LiHua/KeyboxChecker/refs/heads/main/.github/status
 
