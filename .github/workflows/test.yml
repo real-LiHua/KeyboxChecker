@@ -28,7 +28,7 @@ jobs:
 
     - run: curl -sSLo .github/status https://raw.githubusercontent.com/real-LiHua/KeyboxChecker/refs/heads/main/.github/status
 
-    - uses: real-LiHua/KeyboxChecker@v1.0.2
+    - uses: real-LiHua/KeyboxChecker@v1.0.3
         
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
