@@ -14,13 +14,13 @@ runs:
   steps:
     - run: |
         python -m venv "${{ github.action_path }}"
-        ${{ github.action_path }}\*\Activate.ps1
+        ${{ github.action_path }}/*/Activate.ps1
         pip install "${{ github.action_path }}"
       shell: pwsh
     
     - if: ${{ inputs.aosp != 'false' }}
       run: |
-        ${{ github.action_path }}\*\Activate.ps1
+        ${{ github.action_path }}/*/Activate.ps1
         keyboxchecker -a -p "${{ inputs.path }}"
       shell: pwsh
       env:
@@ -29,7 +29,7 @@ runs:
     
     - if: ${{ inputs.aosp == 'false' }}
       run: |
-        s${{ github.action_path }}\*\Activate.ps1
+        s${{ github.action_path }}/*/Activate.ps1
         keyboxchecker -p "${{ inputs.path }}"
       shell: pwsh
       env:
