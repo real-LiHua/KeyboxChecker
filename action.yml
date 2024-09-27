@@ -12,26 +12,21 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: |
-        python -m venv "${{ github.action_path }}"
-        ${{ github.action_path }}/*/Activate.ps1
-        pip install "${{ github.action_path }}"
-      shell: pwsh
+    - uses: actions/setup-python@v5
+  
+    - run: pip install "${{ github.action_path }}"
+      shell: bash
     
     - if: ${{ inputs.aosp != 'false' }}
-      run: |
-        ${{ github.action_path }}/*/Activate.ps1
-        keyboxchecker -a -p "${{ inputs.path }}"
-      shell: pwsh
+      run: keyboxchecker -a -p "${{ inputs.path }}"
+      shell: bash
       env:
         repository: "${{ github.repository }}"
         action_repository: "${{ github.action_repository }}"
     
     - if: ${{ inputs.aosp == 'false' }}
-      run: |
-        s${{ github.action_path }}/*/Activate.ps1
-        keyboxchecker -p "${{ inputs.path }}"
-      shell: pwsh
+      run: keyboxchecker -p "${{ inputs.path }}"
+      shell: bash
       env:
         repository: "${{ github.repository }}"
         action_repository: "${{ github.action_repository }}"
