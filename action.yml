@@ -18,7 +18,7 @@ runs:
   steps:
     - uses: actions/setup-python@v5
   
-    - run: pip install "${{ github.action_path }}"
+    - run: pip install "${{ github.action_path }}" --break-system-packages
       shell: bash
     
     - if: ${{ inputs.aosp != 'false' }}
