@@ -46,13 +46,14 @@ aosp_ec_public_key = load_public_key_from_file("aosp_ec.pem")
 aosp_rsa_public_key = load_public_key_from_file("aosp_rsa.pem")
 knox_public_key = load_public_key_from_file("knox.pem")
 
-survivor, dead = Path("survivor"), Path("dead")
-survivor.mkdir(0o755, exist_ok=True)
-dead.mkdir(0o755, exist_ok=True)
 
 
 def main(args):
     # pylint: disable=C0116,R0912,R0914,R0915
+
+    survivor, dead = Path(args.output) /  "survivor", Path(args.output) /"dead"
+    survivor.mkdir(0o755, exist_ok=True)
+    dead.mkdir(0o755, exist_ok=True)
     revoked_keybox_list = get_revoked_keybox_list()
     with open("status.csv", "w", encoding="UTF-8") as csvfile:
         serial_numbers = []
@@ -67,11 +68,13 @@ def main(args):
         output = []
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
+        rmjob = []
         for kb in Path(args.path).glob("**/*.xml"):
             values = []
             try:
                 root = parse(kb).getroot()
             except ParseError:
+                rmjob.append(kb)
                 continue
             try:
                 pem_number = int(
@@ -86,10 +89,12 @@ def main(args):
                     ]
                 ]
             except AttributeError:
+                rmjob.append(kb)
                 continue
             certificate = x509.load_pem_x509_certificate(pem_certificates[0].encode())
             serial_number = hex(certificate.serial_number)[2:]
             if serial_number in serial_numbers:
+                rmjob.append(kb)
                 continue
             serial_numbers.append(serial_number)
             values.append(serial_number)
@@ -203,3 +208,4 @@ def main(args):
 
             output.append(dict(zip(fieldnames, values)))
         writer.writerows(sorted(output, key=lambda x: x[fieldnames[0]]))
+        map(lambda x:x.unlink(missing_ok=True), rmjob)

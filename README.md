@@ -11,11 +11,13 @@ pip install keyboxchecker
 
 ## Usage
 ```bash
-usage: keyboxchecker [-h] [-a] [-p PATH]
+usage: keyboxchecker [-h] [-a] [-o OUTPUT] [-p PATH]
 
 options:
   -h, --help            show this help message and exit
   -a, --aosp            Categorizes the AOSP keybox as "Survivor" with a default value of "False"
+  -o OUTPUT, --output OUTPUT
+                        Resulting output directory, defaults to current Directory
   -p PATH, --path PATH  Directory where keybox is located, defaults to current directory
 ```
 

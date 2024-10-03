@@ -14,6 +14,12 @@ parser.add_argument(
     help='Categorizes the AOSP keybox as "Survivor" with a default value of "False"',
 )
 parser.add_argument(
+    "-o",
+    "--output",
+    default=".",
+    help="Resulting output directory, defaults to current directory",
+)
+parser.add_argument(
     "-p",
     "--path",
     default=".",

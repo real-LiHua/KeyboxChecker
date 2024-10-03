@@ -11,11 +11,13 @@ pip install keyboxchecker
 
 ## 使用
 ```bash
-用法：keyboxchecker [-h] [-a] [-p PATH］
+用法：keyboxchecker [-h] [-a] [-o OUTPUT] [-p PATH]
 
 选项：
   -h、--help           显示帮助信息并退出
   -a, --aosp           将 AOSP 密钥盒分类为 “Survivor”，默认值为 “False”
+  -o OUTPUT, --output OUTPUT
+                       结果输出目录，默认为当前目录
   -p PATH, --path PATH 密钥盒所在目录，默认为当前目录
 ```
 
