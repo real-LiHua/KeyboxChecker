@@ -5,6 +5,10 @@ inputs:
     description: A boolean value that categorizes the AOSP keybox as a survivor, defaulting to False.
     required: false
     default: false
+  output:
+    description: Directory where keybox is located, defaults to current directory.
+    required: false
+    default: "."
   path:
     description: Directory where keybox is located, defaults to current directory.
     required: false
@@ -18,14 +22,14 @@ runs:
       shell: bash
     
     - if: ${{ inputs.aosp != 'false' }}
-      run: keyboxchecker -a -p "${{ inputs.path }}"
+      run: keyboxchecker -a -p "${{ inputs.path }}" -o "${{ inputs.output }}"
       shell: bash
       env:
         repository: "${{ github.repository }}"
         action_repository: "${{ github.action_repository }}"
     
     - if: ${{ inputs.aosp == 'false' }}
-      run: keyboxchecker -p "${{ inputs.path }}"
+      run: keyboxchecker -p "${{ inputs.path }}" -o "${{ inputs.output }}"
       shell: bash
       env:
         repository: "${{ github.repository }}"
