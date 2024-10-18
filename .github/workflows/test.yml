@@ -26,7 +26,7 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
 
-    - uses: real-LiHua/KeyboxChecker@387b51fecaa5bbeee9598963d02c42f640a5ccde
+    - uses: real-LiHua/KeyboxChecker@main
         
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
