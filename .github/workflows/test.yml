@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-20.04, ubuntu-22.04, ubuntu-latest]
-        python: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     steps:
     - uses: actions/checkout@v4
       with:
@@ -22,14 +21,10 @@ jobs:
         
     - run: git checkout -b ${{ matrix.os }}-${{ matrix.python }}
     
-    - uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python }}
-
     - uses: real-LiHua/KeyboxChecker@main
         
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        branch: ${{ matrix.os }}-${{ matrix.python }}
+        branch: ${{ matrix.os }}
         ssh-key: ${{ secrets.SSH_KEY }}
         push_options: '--force'
