@@ -10,9 +10,11 @@ from pathlib import Path
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec, padding
-from cryptography.hazmat.primitives.serialization import (Encoding,
-                                                          PublicFormat,
-                                                          load_pem_public_key)
+from cryptography.hazmat.primitives.serialization import (
+    Encoding,
+    PublicFormat,
+    load_pem_public_key,
+)
 from defusedxml.ElementTree import ParseError, parse
 from requests import get
 
@@ -47,11 +49,10 @@ aosp_rsa_public_key = load_public_key_from_file("aosp_rsa.pem")
 knox_public_key = load_public_key_from_file("knox.pem")
 
 
-
 def main(args):
     # pylint: disable=C0116,R0912,R0914,R0915
 
-    survivor, dead = Path(args.output) /  "survivor", Path(args.output) /"dead"
+    survivor, dead = Path(args.output) / "survivor", Path(args.output) / "dead"
     survivor.mkdir(0o755, exist_ok=True)
     dead.mkdir(0o755, exist_ok=True)
     revoked_keybox_list = get_revoked_keybox_list()
@@ -91,7 +92,15 @@ def main(args):
             except AttributeError:
                 rmjob.append(kb)
                 continue
-            certificate = x509.load_pem_x509_certificate(pem_certificates[0].encode())
+
+            try:
+                certificate = x509.load_pem_x509_certificate(
+                    pem_certificates[0].encode()
+                )
+            except ValueError:
+                rmjob.append(kb)
+                continue
+
             serial_number = hex(certificate.serial_number)[2:]
             if serial_number in serial_numbers:
                 rmjob.append(kb)
@@ -114,12 +123,16 @@ def main(args):
 
             flag = True
             for i in range(pem_number - 1):
-                son_certificate = x509.load_pem_x509_certificate(
-                    pem_certificates[i].encode()
-                )
-                father_certificate = x509.load_pem_x509_certificate(
-                    pem_certificates[i + 1].encode()
-                )
+                try:
+                    son_certificate = x509.load_pem_x509_certificate(
+                        pem_certificates[i].encode()
+                    )
+                    father_certificate = x509.load_pem_x509_certificate(
+                        pem_certificates[i + 1].encode()
+                    )
+                except ValueError:
+                    rmjob.append(kb)
+                    break
 
                 if son_certificate.issuer != father_certificate.subject:
                     flag = False
@@ -208,4 +221,4 @@ def main(args):
 
             output.append(dict(zip(fieldnames, values)))
         writer.writerows(sorted(output, key=lambda x: x[fieldnames[0]]))
-        map(lambda x:x.unlink(missing_ok=True), rmjob)
+        map(lambda x: x.unlink(missing_ok=True), rmjob)
