@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from json import load
 from os import getenv
 from pathlib import Path
+from secrets import token_urlsafe
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes
@@ -34,7 +35,9 @@ def get_revoked_keybox_list():
         return load(open(Path(".github") / "status"))["entries"]
     else:
         return get(  # pylint: disable=W3101
-            "https://android.googleapis.com/attestation/status",
+            "https://android.googleapis.com/attestation/status?{}".format(
+                token_urlsafe()
+            ),
             headers={
                 "Cache-Control": "max-age=0, no-cache, no-store, must-revalidate",
                 "Pragma": "no-cache",
