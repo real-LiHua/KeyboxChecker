@@ -20,7 +20,7 @@ runs:
       with:
         python-version: 3.12
   
-    - run: pip install "${{ github.action_path }}" --break-system-packages
+    - run: pip install "${{ github.action_path }}"
       shell: bash
     
     - if: ${{ inputs.aosp != 'false' }}
