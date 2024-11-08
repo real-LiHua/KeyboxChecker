@@ -1,5 +1,5 @@
 # Batch keybox checker
-
+[中文](docs/README.zh-CN.md)
 ## Requirements
 Rust (Compile-Time)  
 Python >= 3.8  
