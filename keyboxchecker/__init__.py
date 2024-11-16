@@ -124,6 +124,8 @@ def main(args):
             is_valid = not_valid_before <= current_time <= not_valid_after
             values.append("✅" if is_valid else "❌")
 
+            status = revoked_keybox_list.get(serial_number)
+
             flag = True
             for i in range(pem_number - 1):
                 try:
@@ -186,6 +188,9 @@ def main(args):
                         )
                     else:
                         raise ValueError("Unsupported signature algorithms")
+                    status = status or revoked_keybox_list.get(
+                        hex(father_certificate.serial_number)[2:]
+                    )
                 except Exception:  # pylint: disable=W0718
                     flag = False
                     break
@@ -213,8 +218,6 @@ def main(args):
             else:
                 flag = False
                 values.append("❌ Unknown root certificate")
-
-            status = revoked_keybox_list.get(serial_number)
 
             if status or (is_aosp and not args.aosp) or not flag or not is_valid:
                 kb.rename(dead / f"{serial_number}.xml")
