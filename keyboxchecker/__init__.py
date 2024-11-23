@@ -14,6 +14,7 @@ from cryptography.hazmat.primitives.asymmetric import ec, padding
 from cryptography.hazmat.primitives.serialization import (
     Encoding,
     PublicFormat,
+    load_pem_private_key,
     load_pem_public_key,
 )
 from defusedxml.ElementTree import ParseError, parse
@@ -50,6 +51,7 @@ google_public_key = load_public_key_from_file("google.pem")
 aosp_ec_public_key = load_public_key_from_file("aosp_ec.pem")
 aosp_rsa_public_key = load_public_key_from_file("aosp_rsa.pem")
 knox_public_key = load_public_key_from_file("knox.pem")
+aosp_ec_test_public_key = load_public_key_from_file("aosp_ec_test.pem")
 
 
 def main(args):
@@ -81,6 +83,12 @@ def main(args):
                 rmjob.append(kb)
                 continue
             try:
+                public_key = load_pem_private_key(
+                    root.find(".//PrivateKey").text.strip().encode(), password=None
+                ).public_key()
+            except ValueError:
+                public_key = None
+            try:
                 pem_number = int(
                     root.find(
                         ".//NumberOfCertificates"
@@ -100,6 +108,7 @@ def main(args):
                 certificate = x509.load_pem_x509_certificate(
                     pem_certificates[0].encode()
                 )
+                # print(certificate.public_key() == public_key)
             except ValueError:
                 rmjob.append(kb)
                 continue
@@ -213,6 +222,9 @@ def main(args):
             elif root_public_key == aosp_rsa_public_key:
                 is_aosp = True
                 values.append("🟡 AOSP software attestation root certificate (RSA)")
+            elif root_public_key == aosp_ec_test_public_key:
+                is_aosp = True
+                values.append("🟡 Droid Unregistered Device CA (EC)")
             elif root_public_key == knox_public_key:
                 values.append("✅ Samsung Knox attestation root certificate")
             else:
