@@ -13,7 +13,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec, padding
 from cryptography.hazmat.primitives.serialization import (
     Encoding,
-    PublicFormat,
+    PublicFormat,load_pem_private_key,
     load_pem_public_key,
 )
 from defusedxml.ElementTree import ParseError, parse
@@ -81,6 +81,13 @@ def main(args):
                 rmjob.append(kb)
                 continue
             try:
+                public_key = load_pem_private_key(
+                    root.find(".//PrivateKey").text.strip().encode(), password=None
+                ).public_key()
+            except ValueError:
+                rmjob.append(kb)
+                continue
+            try:
                 pem_number = int(
                     root.find(
                         ".//NumberOfCertificates"
@@ -95,11 +102,12 @@ def main(args):
             except AttributeError:
                 rmjob.append(kb)
                 continue
-
             try:
                 certificate = x509.load_pem_x509_certificate(
                     pem_certificates[0].encode()
                 )
+                if certificate.public_key() != public_key:
+                    raise ValueError
             except ValueError:
                 rmjob.append(kb)
                 continue
