@@ -65,6 +65,7 @@ def main(args):
             "Serial number",
             "Subject",
             "Certificate within validity period",
+            "certificate chain",
             "Valid keychain",
             "Note",
             "Not found in Google's revoked keybox list",
@@ -135,6 +136,7 @@ def main(args):
             status = revoked_keybox_list.get(serial_number)
 
             flag = True
+            certificates = []
             for i in range(pem_number - 1):
                 try:
                     son_certificate = x509.load_pem_x509_certificate(
@@ -146,7 +148,6 @@ def main(args):
                 except ValueError:
                     rmjob.append(kb)
                     break
-
                 if son_certificate.issuer != father_certificate.subject:
                     flag = False
                     break
@@ -199,9 +200,11 @@ def main(args):
                     status = status or revoked_keybox_list.get(
                         hex(father_certificate.serial_number)[2:]
                     )
+                    certificates.append(father_certificate.serial_number)
                 except Exception:  # pylint: disable=W0718
                     flag = False
                     break
+            values.append(" | ".join(map(str,certificates)))
             values.append("✅" if flag else "❌")
 
             root_public_key = (
