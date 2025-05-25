@@ -2,7 +2,7 @@
 
 ## 要求
 Rust (编译时需要)  
-Python >= 3.8  
+Python > 3.9.1  
 连接国际互联网，网络代理环境变量：`HTTP_PROXY`，`HTTPS_PROXY`，`ALL_PROXY`。（详见：[Requests 官方文档](https://requests.readthedocs.io/projects/cn/zh-cn/latest/user/advanced.html#proxies)）
 
 ## 安装

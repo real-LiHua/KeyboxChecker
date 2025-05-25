@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "keyboxchecker"
-version = "1.3.0"
+version = "1.3.1"
 description = ""
 authors = ["Li Hua <lihua@email.com>"]
 readme = "README.md"
@@ -15,8 +15,8 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.8"
-cryptography = "^43.0.1"
+python = ">3.9.1"
+cryptography = "^45.0.2"
 defusedxml = "^0.7.1"
 requests = "^2.32.3"
 
