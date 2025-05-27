@@ -81,10 +81,15 @@ def main(args):
             except ParseError:
                 rmjob.append(kb)
                 continue
+            public_key = ""
             try:
-                public_key = load_pem_private_key(
-                    root.find(".//PrivateKey").text.strip().encode(), password=None
-                ).public_key()
+                pri_key = root.find(".//PrivateKey")
+                if not pri_key is None and isinstance(pri_key.text, str):
+                    public_key = load_pem_private_key(
+                        pri_key.text.strip().encode(), password=None
+                    ).public_key()
+                else:
+                    raise ValueError
             except ValueError:
                 rmjob.append(kb)
                 continue
@@ -104,12 +109,14 @@ def main(args):
                 rmjob.append(kb)
                 continue
             try:
+                # FIXME: 非标准 SN 支持
+                # ~~cryptography 降版本就完事了，但又不想降~~
                 certificate = x509.load_pem_x509_certificate(
                     pem_certificates[0].encode()
                 )
                 if certificate.public_key() != public_key:
                     raise ValueError
-            except ValueError:
+            except ValueError as e:
                 rmjob.append(kb)
                 continue
 
@@ -206,7 +213,6 @@ def main(args):
                     break
             values.append(" | ".join(map(str,certificates)))
             values.append("✅" if flag else "❌")
-
             root_public_key = (
                 x509.load_pem_x509_certificate(pem_certificates[-1].encode())
                 .public_key()
@@ -235,7 +241,6 @@ def main(args):
             else:
                 kb.rename(survivor / f"{serial_number}.xml")
             values.append("✅" if not status else f"❌ {status['reason']}")
-
             output.append(dict(zip(fieldnames, values)))
         writer.writerows(sorted(output, key=lambda x: x[fieldnames[0]]))
         map(lambda x: x.unlink(missing_ok=True), rmjob)
