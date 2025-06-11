@@ -23,7 +23,7 @@ jobs:
     
     - uses: real-LiHua/KeyboxChecker@main
         
-    - uses: stefanzweifel/git-auto-commit-action@v5
+    - uses: stefanzweifel/git-auto-commit-action@v6
       with:
         branch: ${{ matrix.os }}
         ssh-key: ${{ secrets.SSH_KEY }}
