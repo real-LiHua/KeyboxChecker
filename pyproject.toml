@@ -1,31 +1,102 @@
-[tool.poetry]
+[project]
 name = "keyboxchecker"
-version = "1.3.1"
-description = ""
-authors = ["Li Hua <lihua@email.com>"]
+version = "1.3.2"
+description = "Batch keybox checker"
 readme = "README.md"
-repository = "https://github.com/real-LiHua/KeyboxChecker"
-classifiers = [
-    "Intended Audience :: Information Technology",
-    "Operating System :: Android",
-    "Operating System :: MacOS",
-    "Operating System :: Microsoft :: Windows",
-    "Operating System :: POSIX :: Linux",
-    "Topic :: Utilities",
+requires-python = ">=3.9.1"
+dependencies = [
+    "cryptography>=45.0.0",
+    "defusedxml>=0.7.1",
+    "loguru>=0.7.3",
+    "requests>=2.32.4",
 ]
 
-[tool.poetry.dependencies]
-python = ">3.9.1"
-cryptography = "^43.0.1"
-defusedxml = "^0.7.1"
-requests = "^2.32.3"
+[dependency-groups]
+dev = [
+    "basedpyright>=1.31.1",
+    "pre-commit>=4.2.0",
+    "pytest>=8.4.1",
+    "ruff>=0.12.7",
+]
 
-[tool.poetry.scripts]
-keyboxchecker = "keyboxchecker.__main__:cli"
+[tool.basedpyright]
+pythonPlatform = "All"
+allowedUntypedLibraries = ["defusedxml.ElementTree.parse"]
 
-[tool.poetry.urls]
-"Bug Tracker" = "https://github.com/real-LiHua/KeyboxChecker/issues"
+[tool.ruff]
+unsafe-fixes = true
+
+[tool.ruff.format]
+docstring-code-format = true
+line-ending = "lf"
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint]
+logger-objects = ["loguru.logger"]
+select = [
+    "YTT",	# flake8-2020
+    "ANN",	# flake8-annotations
+    "ASYNC",	# flake8-async
+    "S",	# flake8-bandit
+    "BLE",	# flake8-blind-except
+    "FBT",	# flake8-boolean-trap
+    "B",	# flake8-bugbear
+    "A",	# flake8-builtins
+    "COM",	# flake8-commas
+    "C4",	# flake8-comprehensions
+    "DTZ",	# flake8-datetimez
+    "T10",	# flake8-debugger
+    "EM",	# flake8-errmsg
+    "EXE",	# flake8-executable
+    "FIX",	# flake8-fixme-fix
+    "FA",	# flake8-future-annotations
+    "INT",	# flake8-gettext
+    "ISC",	# flake8-implicit-str-concat
+    "ICN",	# flake8-import-conventions
+    "LOG",	# flake8-logging
+    "G",	# flake8-logging-format
+    "INP",	# flake8-no-pep420
+    "PIE",	# flake8-pie
+    "T20",	# flake8-print
+    "PYI",	# flake8-pyi
+    "PT",	# flake8-pytest-style
+    "Q",	# flake8-quotes
+    "RSE",	# flake8-raise
+    "RET",	# flake8-return
+    "SLF",	# flake8-self
+    "SIM",	# flake8-simplify
+    "SLOT",	# flake8-slots
+    "TID",	# flake8-tidy-imports
+    "TD",	# flake8-todos
+    "TC",	# flake8-type-checking
+    "ARG",	# flake8-unused-arguments
+    "PTH",	# flake8-use-pathlib
+    "FLY",	# flynt
+    "I",	# isort
+    "C90",	# mccabe
+    "PERF",	# perflint
+    "E",	# pycodestyle
+    "W",	# pycodestyle
+    "DOC",	# pydoclint
+    "D",	# pydocstyle
+    "F",	# pyflakes
+    "PGH",	# pygrep-hooks
+    "PLC",	# pylint(Convention)
+    "PLE",	# pylint(Error)
+    "PLR",	# pylint(Refactor)
+    "PLW",	# pylint(Warning)
+    "UP",	# pyupgrade
+    "FURB",	# refurb
+    "RUF",	# ruff-specific-rules
+    "TRY",	# tryceratops
+]
+task-tags = ["BUG"]
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+combine-as-imports = true
+required-imports = ["from __future__ import annotations"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build"]
+build-backend = "uv_build"
